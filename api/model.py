@@ -1,12 +1,14 @@
 import json
 import random
 
+#dataseti okuyoruz.
 def load_menu_data(file_path):
     with open(file_path, 'r') as file:
         return json.load(file)
 
 menu_data = load_menu_data('data/menu_data.json')
 
+#filtrelemeler
 def filter_meals(is_vegetarian, is_vegan):
     for meal in menu_data['meals']:
         if is_vegetarian:
@@ -17,6 +19,7 @@ def filter_meals(is_vegetarian, is_vegan):
                 continue
         yield meal
 
+#gönderilen id'ye ait yemek bulma
 def get_meal(meal_id):
     for meal in menu_data['meals']:
         if meal['id'] == meal_id:
@@ -46,6 +49,7 @@ def is_ingredient_vegan(ingredient):
         if option['name'] == ingredient['name']:
             return 'vegan' in option['groups'] or len(option['groups']) == 0  
 
+#kalite hesaplama
 def calculate_quality_model(meal_id, ingredient_qualities):
     
     meal = get_meal(meal_id)
@@ -87,7 +91,7 @@ def calculate_quality_model(meal_id, ingredient_qualities):
         'quality': overall_quality
     }
 
-
+#fiyat hesaplama
 def calculate_price_model(meal_id, ingredient_qualities):
     
     meal = get_meal(meal_id)
@@ -142,7 +146,7 @@ def calculate_price_model(meal_id, ingredient_qualities):
     }
 
 
-
+#random yemek döndürme modeli
 def select_random_meal_model(budget=None):
    
     selected_meal = random.choice(menu_data['meals'])

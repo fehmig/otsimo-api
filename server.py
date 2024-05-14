@@ -3,6 +3,7 @@ from api.controller import list_meals, get_meal_by_id, calculate_quality_control
 from urllib.parse import urlparse, parse_qs
 import json
 
+#istek tipine göre pathler organize edildi. gerekli paramatreler controller dosyasına aktarıldı.
 
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
