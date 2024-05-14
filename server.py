@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from api.controller import list_meals, get_meal_by_id, calculate_quality_controller, calculate_price_controller, select_random_meal_controller
+from api.controller import list_meals, get_meal_by_id, calculate_quality_controller, calculate_price_controller, search_meal_controller, select_random_meal_controller
 from urllib.parse import urlparse, parse_qs
 import json
 
@@ -29,6 +29,17 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(meal).encode())
             else:
                 self.send_error(404, 'Meal not found')
+
+        elif parsed_path.path == '/search':
+            query = query_params.get('query', [''])[0]
+            if query:
+                matched_meals = search_meal_controller(query)
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps(matched_meals).encode())
+            else:
+                self.send_error(400, 'Query parameter is required')        
 
         else:
             self.send_error(404, 'Endpoint not found')

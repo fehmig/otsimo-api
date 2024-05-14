@@ -96,7 +96,7 @@ def calculate_price_model(meal_id, ingredient_qualities):
         return {'error': 'Meal not found'}, 404
     
     total_cost = 0
-    print(ingredient_qualities)
+   
     
     for ingredient in meal['ingredients']:
         ingredient_name = ingredient['name']
@@ -132,21 +132,18 @@ def calculate_price_model(meal_id, ingredient_qualities):
         else:
             additional_cost = 0  
 
-        ingredient_cost = (ingredient_price_per_kg * (ingredient_quantity /1000)) + additional_cost 
+        ingredient_cost = ingredient_price_per_kg * (ingredient_quantity /1000) + additional_cost 
 
         
         total_cost += ingredient_cost
-        print(additional_cost)
-        print(ingredient_price_per_kg)
-        print(ingredient_quantity)
-    
+      
     return {
         'price': round(total_cost, 2)
     }
 
 
 
-def select_random_meal(budget=None):
+def select_random_meal_model(budget=None):
    
     selected_meal = random.choice(menu_data['meals'])
     
